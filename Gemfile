@@ -1,8 +1,5 @@
-source :rubygems
-ruby '2.0.0'
 
-gem 'rake'
+source 'https://rubygems.org/'
+
+gem 'google-api-client', '>= 0.6'
 gem 'dotenv'
-gem 'i18n'
-gem 'httparty'
-gem 'google-api-client'

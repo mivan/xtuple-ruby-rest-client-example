@@ -1,14 +1,18 @@
 require 'google/api_client'
-require 'date'
+require 'signet/oauth_2/client'
 require 'dotenv'
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+Dotenv.load
 
 database = ENV['DATABASE']
-host = 'https://' + ENV['HOST']
+host = "https://" + ENV['HOST']
 
 if ENV['PORT']
-  host = host + ':' + ENV['PORT']
+  host = host + ":" + ENV['PORT']
 end
-baseUrl = host + '/' + database
+baseUrl = host + "/" + database
 
 # Initialize the client.
 client = Google::APIClient.new(
@@ -29,19 +33,23 @@ client.authorization = Signet::OAuth2::Client.new(
   :signing_key => key,
   :person => ENV['USERNAME'])
 
+  puts client.authorization.person
+  puts client.authorization.scope
+  puts client.authorization.audience
+  puts client.authorization.token_credential_uri
+  puts client.authorization.issuer
+
   # Request a token for our service account
   client.authorization.fetch_access_token!
 
   # Initialize xTuple REST API. Note this will make a request to the
   # discovery service every time.
 
-  service = nil
   service = client.discovered_api('')
 
   # Execute the query
   contacts = client.execute(
-    :api_method => service[database]Contact.list(),
+    :api_method => service[test].Contact.list(),
     :parameters => {})
 
   puts contacts
-end
