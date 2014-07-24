@@ -1,5 +1,6 @@
+## xTuple ERP Ruby REST API Client Example
 
-## Sample Ruby client for xTuple REST API ##
+xTuple ERP Ruby REST API Client Example using the Google APIs Client Library for Ruby.
 
 ### Prerequisites
 
