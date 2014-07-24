@@ -45,6 +45,8 @@ client.authorization = Signet::OAuth2::Client.new(
   # discovery service every time.
   service = client.discovered_api('xtuple', 'v1alpha1')
 
+  service.discovered_resources
+
   # Execute the query
   result = client.execute(
     :api_method => service[database].Contact.get,
