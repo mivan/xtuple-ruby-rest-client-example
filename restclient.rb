@@ -18,8 +18,8 @@ baseUrl = host + "/" + database
 
 # Initialize the client.
 client = Google::APIClient.new(
-  :application_name => 'xtuple',
-  :application_version => 'v1alpha1',
+  :application_name => ENV['APPLICATION_NAME'],
+  :application_version => ENV['APPLICATION_VERSION'],
   :port => 8443,
   :host => ENV['HOST']
 )
@@ -38,19 +38,19 @@ client.authorization = Signet::OAuth2::Client.new(
   # Request a token for our service account
   client.authorization.fetch_access_token!
 
+  # create discovery_uri with application version
+  discovery_uri = baseUrl + '/discovery/' + ENV['APPLICATION_VERSION'] + '/apis/' + ENV['APPLICATION_VERSION'] + '/rest';
   # Register the discovery URL for xTuple REST
-  client.register_discovery_uri('xtuple', 'v1alpha1', baseUrl + '/discovery/v1alpha1/apis/v1alpha1/rest')
+  client.register_discovery_uri(ENV['APPLICATION_NAME'], ENV['APPLICATION_VERSION'], discovery_uri)
 
   # Initialize xTuple REST API. Note this will make a request to the
   # discovery service every time.
-  service = client.discovered_api('xtuple', 'v1alpha1')
+  service = client.discovered_api(ENV['APPLICATION_NAME'], ENV['APPLICATION_VERSION'])
 
-  service.discovered_resources
-
-  # Execute the query
+  Execute the query
   result = client.execute(
-    :api_method => service[database].Contact.get,
+    :api_method => service[database].Contact.list,
     :parameters => {}
   )
-  #
+
   puts result

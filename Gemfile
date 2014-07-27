@@ -3,4 +3,3 @@ ruby '2.0.0'
 
 gem 'google-api-client'
 gem 'dotenv'
-gem 'certified'
