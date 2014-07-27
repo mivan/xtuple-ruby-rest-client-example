@@ -16,7 +16,7 @@ This client uses OAuth 2.0 with service accounts.
 ### Running the Example
 
     $ bundle install
-    $ bundle exec ruby analytics.rb
+    $ bundle exec ruby restclient.rb
 
 ## License
 
