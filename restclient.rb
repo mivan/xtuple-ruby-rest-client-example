@@ -21,7 +21,8 @@ client = Google::APIClient.new(
   :application_name => ENV['APPLICATION_NAME'],
   :application_version => ENV['APPLICATION_VERSION'],
   :port => 8443,
-  :host => ENV['HOST']
+  :host => ENV['HOST'],
+  :discovery_path => '/discovery/v1alpha1'
 )
 
 # Load your credentials for the service account
@@ -47,10 +48,17 @@ client.authorization = Signet::OAuth2::Client.new(
   # discovery service every time.
   service = client.discovered_api(ENV['APPLICATION_NAME'], ENV['APPLICATION_VERSION'])
 
-  #Execute the query
+  ##
+  # Execute the query
+  #
+  # Ensure that the api_method is using snake versus camel-case: sales_history vs SalesHistory
+  #
   result = client.execute(
-    :api_method => service.Contact.list,
+    :api_method => service.contact.list,
     :parameters => {}
   )
 
-  puts result
+  contacts = result.data.data
+  for contact in contacts
+    puts "id: #{contact['number']}, name: #{contact['firstName']} #{contact['lastName']}"
+  end
