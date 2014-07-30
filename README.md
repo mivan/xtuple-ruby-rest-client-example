@@ -17,6 +17,10 @@ This client uses OAuth 2.0 with service accounts.
 
     $ bundle install
     $ bundle exec ruby restclient.rb
+    
+### Output
+
+This example prints a basic list of xTuple Contacts to the console.
 
 ## License
 
