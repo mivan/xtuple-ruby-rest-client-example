@@ -21,8 +21,7 @@ client = Google::APIClient.new(
   :application_name => ENV['APPLICATION_NAME'],
   :application_version => ENV['APPLICATION_VERSION'],
   :port => 8443,
-  :host => ENV['HOST'],
-  :discovery_path => '/discovery/v1alpha1'
+  :host => ENV['HOST']
 )
 
 # Load your credentials for the service account
