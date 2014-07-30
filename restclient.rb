@@ -47,9 +47,9 @@ client.authorization = Signet::OAuth2::Client.new(
   # discovery service every time.
   service = client.discovered_api(ENV['APPLICATION_NAME'], ENV['APPLICATION_VERSION'])
 
-  Execute the query
+  #Execute the query
   result = client.execute(
-    :api_method => service[database].Contact.list,
+    :api_method => service.Contact.list,
     :parameters => {}
   )
 
