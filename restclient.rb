@@ -47,10 +47,17 @@ client.authorization = Signet::OAuth2::Client.new(
   # discovery service every time.
   service = client.discovered_api(ENV['APPLICATION_NAME'], ENV['APPLICATION_VERSION'])
 
-  #Execute the query
+  ##
+  # Execute the query
+  #
+  # Ensure that the api_method is using snake versus camel-case: sales_history vs SalesHistory
+  #
   result = client.execute(
-    :api_method => service.Contact.list,
+    :api_method => service.contact.list,
     :parameters => {}
   )
 
-  puts result
+  contacts = result.data.data
+  contacts.each do |contact|
+    puts "id: #{contact['number']}, name: #{contact['firstName']} #{contact['lastName']}"
+  end
