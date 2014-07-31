@@ -59,5 +59,5 @@ client.authorization = Signet::OAuth2::Client.new(
 
   contacts = result.data.data
   contacts.each do |contact|
-    puts "id: #{contact['number']}, name: #{contact['firstName'] contact['lastName']}"
+    puts "id: #{contact['number']}, name: #{contact['firstName']} #{contact['lastName']}"
   end
