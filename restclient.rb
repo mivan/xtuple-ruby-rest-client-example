@@ -9,10 +9,10 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 Dotenv.load
 
 database = ENV['DATABASE']
-host = "https://" + ENV['HOST']
+host = "https://" + ENV['APPLICATION_HOST']
 
-if ENV['PORT']
-  host = host + ":" + ENV['PORT']
+if ENV['APPLICATION_PORT']
+  host = host + ":" + ENV['APPLICATION_PORT']
 end
 baseUrl = host + "/" + database
 
@@ -20,12 +20,17 @@ baseUrl = host + "/" + database
 client = Google::APIClient.new(
   :application_name => ENV['APPLICATION_NAME'],
   :application_version => ENV['APPLICATION_VERSION'],
-  :port => 8443,
-  :host => ENV['HOST']
+  :port => ENV['APPLICATION_PORT'],
+  :host => ENV['APPLICATION_HOST']
 )
 
 # Load your credentials for the service account
-key = Google::APIClient::KeyUtils.load_from_pkcs12(ENV['PRIVATE_KEY_PATH'], ENV['PRIVATE_KEY_SECRET'])
+if ENV['PRIVATE_KEY_PATH']
+  key = Google::APIClient::KeyUtils.load_from_pkcs12(ENV['PRIVATE_KEY_PATH'], ENV['PRIVATE_KEY_SECRET'])
+else
+  key = OpenSSL::PKey::RSA.new(ENV['PRIVATE_KEY'], ENV['PRIVATE_KEY_SECRET'])
+end
+
 client.authorization = Signet::OAuth2::Client.new(
   :authorization_uri => baseUrl + '/oauth/auth',
   :token_credential_uri => baseUrl + '/oauth/token',
